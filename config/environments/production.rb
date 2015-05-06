@@ -83,6 +83,6 @@ Rails.application.configure do
   config.assets.compile = true
   config.assets.digest = true
 
-
+  config.static_cache_control = "public, max-age=31536000"
 
 end
