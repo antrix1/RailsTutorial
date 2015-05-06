@@ -89,4 +89,10 @@ Rails.application.configure do
 
   # Generate digests for assets URLs
   config.assets.digest = true
+
+
+  # Serve pre-gzipped static assets
+  middleware.insert_after(
+      'Rack::Cache', Middleware::CompressedStaticAssets,
+      paths["public"].first, config.assets.prefix, config.static_cache_control)
 end
