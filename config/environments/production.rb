@@ -78,21 +78,11 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
 
-  # Disable Rails's static asset server (Apache or nginx will already do this)
-  config.serve_static_assets = false
-
-  # Compress JavaScripts and CSS
+  config.serve_static_files = true
   config.assets.compress = true
-
-  # Don't fallback to assets pipeline if a precompiled asset is missed
-  config.assets.compile = false
-
-  # Generate digests for assets URLs
+  config.assets.compile = true
   config.assets.digest = true
 
 
-  # Serve pre-gzipped static assets
-  middleware.insert_after(
-      'Rack::Cache', Middleware::CompressedStaticAssets,
-      paths["public"].first, config.assets.prefix, config.static_cache_control)
+
 end
