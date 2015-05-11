@@ -1,0 +1,23 @@
+<%= render '/shared/error_messages' %>
+
+<%= form_for @user do |f| %>
+<%= f.label "Username" %>
+<%= f.text_field :name, class: 'form-control' %>
+
+<%= f.label "Email" %>
+<%= f.text_field :email, class: 'form-control' %>
+
+<%= f.label "Password" %>
+<%= f.password_field :password, class: 'form-control'%>
+
+<%= f.label "Confirm Password" %>
+<%= f.password_field :password_confirmation, class: 'form-control' %>
+
+
+<% if @user.new_record? %>
+<%= f.submit "Register", class: "btn btn-primary" %>
+<% else %>
+<%= f.submit "Save", class: "btn btn-primary" %>
+<% end %>
+
+<% end %>
