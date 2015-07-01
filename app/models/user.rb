@@ -40,4 +40,9 @@ class User < ActiveRecord::Base
   def forget
     update_attribute(:remember_digest, nil)
   end
+
+  #returns the list of all feed_items
+  def feed
+    microposts
+  end
 end

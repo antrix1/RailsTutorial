@@ -63,6 +63,6 @@ class UsersControllerTest < ActionController::TestCase
     assert_difference 'User.count', -1 do
       delete :destroy, id: @user
     end
-end
+  end
 
 end
