@@ -9,7 +9,7 @@ $('#error_explanation').hide();
 <% else %>
 
 $('#success_notice').html("<%= j render 'layouts/flash_msg' %>").hide().fadeIn();
-$('#new_micropost').prepend("<%= j render 'shared/error_messages', object: @micropost %>");
+$('#errors_for_form').html("<%= j render 'shared/error_messages', object: @micropost %>");
 
 <% end %>
 
