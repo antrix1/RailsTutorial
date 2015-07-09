@@ -22,14 +22,14 @@ class MicropostsInterfaceTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_match content, response.body
     # Delete a post
-    assert_select 'a', text: "delete"
+    assert_select '.pull-right a', text: "Delete"
     first_micropost = @user.microposts.paginate(page: 1).first
     assert_difference "Micropost.count", -1 do |variable|
       delete micropost_path(first_micropost)
     end
     # Visit a different user
-    get user_path(uses(:archer))
-    assert_select 'a', text: delete, count: 0
+    get user_path(users(:archer))
+    assert_select '.pull-right a', text: "Delete", count: 0
   end
 
 end

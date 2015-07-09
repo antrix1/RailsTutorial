@@ -12,6 +12,13 @@ class User < ActiveRecord::Base
   has_secure_password
 
   has_many :microposts, dependent: :destroy
+  has_many :active_relationships, class_name: "Relationship",
+           foreign_key: "follower_id",
+           dependent: :destroy
+  has_many :following, through: :active_relationships, source: :followed
+
+  has_many :passive_relationships, class_name: "Relationship", foreign_key: "followed_id"
+  has_many :followers, through: :passive_relationships, source: :follower
 
   # Returns the hash digest of the given string.
   def User.digest(string)
@@ -45,7 +52,10 @@ class User < ActiveRecord::Base
 
   #returns the list of all feed_items
   def feed
-    microposts
+    following_ids = "SELECT followed_id FROM relationships
+                     WHERE  follower_id = :user_id"
+    Micropost.where("user_id IN (#{following_ids})
+                     OR user_id = :user_id", user_id: id)
   end
 
   # Activates an account.
@@ -75,9 +85,25 @@ class User < ActiveRecord::Base
     reset_sent_at < 2.hours.ago
   end
 
+  # Follows a user
+  def follow(other_user)
+    active_relationships.create(followed_id: other_user.id)
+  end
+
+  # Unfollows a user
+  def unfollow(other_user)
+    active_relationships.find_by(followed_id: other_user.id).destroy
+  end
+
+  # Checks if current user is following another user
+  def following?(other_user)
+    following.include?(other_user)
+  end
+
 
   private
 
+  # Creates an activation digest
   def create_activation_digest
     self.activation_token = User.new_token
     self.activation_digest = User.digest(activation_token)

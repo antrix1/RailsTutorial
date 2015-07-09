@@ -1,0 +1,15 @@
+<% if @result %>
+
+$('#micropost_content').val('');
+$('.microposts').prepend("<%= j render @micropost %>");
+$('.microposts li').first().hide().fadeIn(1000);
+$('.user_info').html("<%= j render 'shared/user_info' %>");
+$('#error_explanation').hide();
+
+<% else %>
+
+$('#success_notice').html("<%= j render 'layouts/flash_msg' %>").hide().fadeIn();
+$('#new_micropost').prepend("<%= j render 'shared/error_messages', object: @micropost %>");
+
+<% end %>
+

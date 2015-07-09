@@ -1,5 +1,7 @@
 class Micropost < ActiveRecord::Base
   belongs_to :user
+  belongs_to :follower, :class_name => "User"
+  belongs_to :followed, :class_name => "User"
   validates :user_id, presence: true
   validates :content, presence: true, length: {maximum: 140}
   mount_uploader :picture, PictureUploader
